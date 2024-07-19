@@ -1,24 +1,47 @@
-# README
+# ProtoSpace DB Design
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Table Design
 
-Things you may want to cover:
+### users Table
 
-* Ruby version
+| Column Name          | Data Type | Constraints            |
+|----------------------|-----------|------------------------|
+| email                | string    | NOT NULL, unique       |
+| encrypted_password   | string    | NOT NULL               |
+| name                 | string    | NOT NULL               |
+| profile              | text      | NOT NULL               |
+| occupation           | text      | NOT NULL               |
+| position             | text      | NOT NULL               |
 
-* System dependencies
+### prototypes Table
 
-* Configuration
+| Column Name     | Data Type   | Constraints                   |
+|-----------------|-------------|-------------------------------|
+| title           | string      | NOT NULL                      |
+| catch_copy      | text        | NOT NULL                      |
+| concept         | text        | NOT NULL                      |
+| user_id         | references  | NOT NULL, foreign key         |
 
-* Database creation
+*Note: Image is implemented using ActiveStorage and thus not included.*
 
-* Database initialization
+### comments Table
 
-* How to run the test suite
+| Column Name     | Data Type   | Constraints                   |
+|-----------------|-------------|-------------------------------|
+| content         | text        | NOT NULL                      |
+| prototype_id    | references  | NOT NULL, foreign key         |
+| user_id         | references  | NOT NULL, foreign key         |
 
-* Services (job queues, cache servers, search engines, etc.)
+## Associations
 
-* Deployment instructions
+### users Table
+- has_many :prototypes
+- has_many :comments
 
-* ...
+### prototypes Table
+- belongs_to :user
+- has_many :comments
+
+### comments Table
+- belongs_to :user
+- belongs_to :prototype
