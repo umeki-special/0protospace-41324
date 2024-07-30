@@ -1,6 +1,11 @@
 class CommentsController < ApplicationController
   def create
-    Comment.create(comment_params)
+    @comment = Comment.new(comment_params)
+    if @comment.save
+      redirect_to prototype_path(@comment.prototype_id)
+    else
+      # handle failure, e.g. rendering the prototype page with an error message
+    end
   end
 
   private
